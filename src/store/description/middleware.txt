@@ -1,0 +1,76 @@
+==>✅ O'rta dasturlar (middleware) o'rta dasturlar bizga nomiga ko'ra o'rtada
+joylashadi yani Reducer bilan actionlar orasida joylashadi va bizga bir
+qator ajoyib ishlarni qilishishga imkon beradi:
+
+1️⃣ API so'rovlarini yuborishda (APIs Calling)
+2️⃣ Xato haqida xabar berish (Error reporting)
+3️⃣ Analitikada (Analytics)
+4️⃣ Ro'yxatda o'tganlikni tekshirish (Autohorization)
+
+==>✅ Middleware dasturlarni sozlash 
+
+Shu ko'rinishda bo'ladi :
+(SNK)👍🏻
+const middleware = store => next => action => {
+
+}
+
+==> Store obyektida (dispatch) va (getState) funksiyalari bo'ladi.
+==> Next o'zidan keyingi amalga yoki funksiyaga ishora qiladi
+==> Action o'zida type va paload xususiyatiga oblectni ushlab turadi
+
+
+import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
+import reducer from "./reducer";
+import logger from './middleware/logger'
+import func from "./middleware/funk";
+
+export default function(){
+   
+    return configureStore({
+        reducer,
+        middleware:[
+            ...getDefaultMiddleware(),
+            logger({destination: 'console'}),
+            
+        ]
+    });
+}
+
+getDefaultMiddleware() ==> bu biz dispatch da funksiya yuborganimizda type 
+aniqlab shunga qarab ish ko'radi masalan :
+
+store.dispatch(() => {
+
+}) ❓ : degan funksiyani yuboramiz getDefaultMiddleware bizga ushbu funksiyaga o'xshash 
+tekshirish ni amalga oshiradi :
+
+const func = ({ dispatch, getState }) => next => action => {
+    if (typeof action === 'function')
+        action(dispatch, getState)
+    else
+        next(action)
+}
+
+store.dispatch(()=>{}) bizga oldin func ni beradi u esa action(dispatch, getState) orqali 
+keyingi funksiyaga ga o'tadi va joriy holat uchun (dispatch) va (getState) uzatadi:
+
+store.dispatch( func() => {
+    action((dispatch, getState) => {
+
+    })
+} )  xuddi shu ko'rinishda bo'ladi 
+
+29
+
+O'rta dastur quvur liniyasi siz o'tgan buyurtmaga to'liq mos keladi applyMiddleware(). Shunday qilib, bu misolda:
+
+chaqirish store.dispatch()harakatni o'tkazadimiddle
+middle1 qo'ng'iroq qilganda next(action), u ketadi middle2
+middle2 qo'ng'iroq qilganda next(action), u ketadi middle3
+middle3 qo'ng'iroq qilganda next(action), u haqiqiy do'konga boradi va reduktor mantig'i bajariladi
+Yo'q, do'kon yaratilgandan keyin siz o'rta dasturni qayta buyurtma qila olmaysiz.
+
+
+
+==> har qanday funksiyalarni action lar ichidan yuborishimiz kerak✅👍🏻

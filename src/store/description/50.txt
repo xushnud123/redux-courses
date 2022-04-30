@@ -1,0 +1,42 @@
+==>  ✅ Biz redux ni osonlashtirish uchun Action va Reducer bo'limlarini birlashtira olamiz
+buni qilish uchun redux/toolkit biz uchun (createAction va createReducer) o'rniga =>
+(createSlice) funksiyasini beradi.
+
+import {createSlice} from '@redux/toolkit'
+
+createSlice bizga reducer bo'limini belgilash uchun 'name' xususiyatini,
+boshlang'ich qiymat uchun 'initialState' xususiyatini va reducer funksiyamiz 
+'reducers' xususiyatini beradi. Yaxshi tomoni shundaki biz (action)larimizni 
+o'zgartirsak bitta joydan o'zgartira olamiz.
+
+createSlice({
+    name:'', 
+    initaialState:[],
+    reducers:{
+        bugAdded: (bugs, action) => {
+            bugs.push({
+                id: ++lastId,
+                description: action.payload.description,
+                resolved: false
+            })
+        },
+    }
+})
+
+==> ✅ Reduxda biz loyixani bo'limlarga bo'lib uni ishlashini optimallashtiramiz 
+yani biz kitoblar bo'limi uchun 1️⃣ ta reducer ni belgilashimiz mumkin va boshqa bo'limlar 
+uchun ham alohida reduserlarga ajratish mumkin bu bizga loyixamizni tashkil qilishni oson va tushunarli 
+qiladi. Va shu bilan xato sodir bo'lganda topishni osonlashtiradi.
+
+Reducerlarni birlashtirish uchun redux yoki redux/toolkit dan maxsus funksiyalarini import 
+qilishimiz kerak biz hozir redux/toolkit dan (combineReducers) import qilinadi va har bir 
+alohida reducer objectga kiritiladi👍🏻
+
+import { combineReducers } from "redux";
+import bugsReducer from './bugs'
+import projectReducer from './projects'
+
+export default combineReducers({
+    bugs: bugsReducer,
+    projects: projectReducer
+})

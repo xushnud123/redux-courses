@@ -1,0 +1,27 @@
+==> Biz bir nechta joyda Api ga murojat qilishimiz mumkin bu o'z
+navbatida kodning takrorlanishiga va UI Layer bilan aralashib ketishiga olib keladi.
+
+    index.js
+store.dispatch(actions.apiCallBegan({
+    url:'/bugs',
+    onSuccess:'bugs/bugsReceived'
+}))
+
+Biz bu kodni oddiyroq va UI Layer ga aralashib ketmaydigan qilishimiz kerak masalan: 
+
+store.dispatch(loadBugs())
+
+👍🏻 Biz bunday amallarni yaratish uchun eng qulay joy (reducer) joylashgan fayl hisoblanadi
+agar biz o'zgartirish kiritmoqchi bo'lsak bitta faylga o'zgartirish kiritaman. Keyin 
+(Reducer) dan (type) xususiyatlarini ham olishimiz mumkin.
+
+// Action creators
+const url = '/bugs'
+
+    bugs.js
+export const loadBugs = () => apiCallBegan({
+    url,
+    onSuccess: bugsReceived.type
+})
+
+

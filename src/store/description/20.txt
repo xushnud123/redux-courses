@@ -1,0 +1,15 @@
+Redux functional dasturlash tamoyillari asosida qurilgan shuning uchun uni
+to'g'ridan to'g'ri qiymat berib o'rgartira olmaymiz.
+
+masalan: store.currentUser = { name: 'Xushnudbek'}
+
+Chunki do'konimiz (store) o'zgarmas object.Shuning uchun biz do'konni argument sifatida qabul
+ qilib yangilangan do'konni qaytaradi.
+
+ Redux sof funksiya sof funksiyaga bir necha bor chaqirib bir xil qiymat berilsa bir xil qiymat 
+ qaytaradi 
+
+
+Asosiy Qurilish bloklari 
+
+Action ==> Reducer ==> Store

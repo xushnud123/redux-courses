@@ -1,0 +1,67 @@
+1️⃣ ==> Api ga murojat qilish uchun yangi Actionlarni yaratib olamiz .Bu 
+bizga Api ga qo'ng'iroq qilish va muvaffaqiyatli yoki muvufaqiyatsiz kelgan 
+so'rovni ushlashda yordam beradi.
+
+import { createAction } from "@reduxjs/toolkit";
+
+export const apiCallBegan = createAction('api/callBegan')
+export const apiCallSuccess = createAction('api/callSuccess')
+export const apiCallFaild = createAction('api/callFailed')
+
+2️⃣ ==> Endi o'rta dasturimizni sozlab olamiz. Birinchi bo'lib shart qo'yamiz
+agar (action.type) biz yuborgan (apiCallBegan.type) teng bo'lmasa keyingi funksiyaga
+o'tkazib yuboramiz. Agar teng bo'lsa ( try {} , catch {} ) bloklarida natijani yoki 
+(errorni) ushlaymiz.
+
+👍🏻 ==> Api O'rta dasturimizga yuboradigan (Actionimiz) ni reduser ga tog'ridan 
+to'gri aloqasi yo'q bu shunchaki (Api) dan qaytgan natijaga qarab keyingi (Action) ni
+belgilab beradi.
+
+(Success) ==> ✅ Bizning amal muvaffaqiyatli bo'lsa oldin umumiy muvaffaqiyatli actionni yuboramiz
+1️⃣ dispatch(actions.apiCallSuccess(response.data)) keyin esa aniq bir amal uchun action ni 
+yuboramiz 2️⃣  if (onSuccess) dispatch({ type: onSuccess, payload: response.data }) bu bizga (data) ni olib reducerga 
+jo'natadi.
+
+
+(Error) ==> ❌ Biz agar amalimiz muvufaqiyatsiz bo'lsa uni (catch(error)) da ushlaymiz umumiy
+ko'rinishini 1️⃣(dispatch(actions.apiCallFaild(error.message))) ga berishimiz mumkin
+yoki Aniq bir amalni bajarmoqchi bo'lsak 2️⃣  if (onError) dispatch({ type: onError, payload: error.message }) deb mahsus 
+action yuborishimiz mumkin bu holat 🔄 (loader ni o'shirishda kerak bo'ladi.)
+
+
+
+import axios from "axios";
+import * as actions from '../api'
+
+const api = ({ dispatch }) => next => async action => {
+    if (action.type !== actions.apiCallBegan.type) return next(action);
+
+    
+    const { url, method, onError, onStart, onSuccess, data } = action.payload
+    
+    //loading yuborilgan bo'lsa ishlaydi bugs/bugsRequested
+    if (onStart) dispatch({ type: onStart })
+
+    next(action);
+
+    try {
+        const response = await axios.request({
+            baseURL: 'http://localhost:9001/api',
+            url,
+            data,
+            method
+        })
+        // General
+        dispatch(actions.apiCallSuccess(response.data))
+        // Specific
+        if (onSuccess) dispatch({ type: onSuccess, payload: response.data })
+    }
+    catch (error) {
+        // General
+        dispatch(actions.apiCallFaild(error.message))
+        // Specific
+        if (onError) dispatch({ type: onError, payload: error.message })
+
+    }
+
+}

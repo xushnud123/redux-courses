@@ -1,0 +1,22 @@
+Redux devtools
+
+Action ===> Action (() ==> Three ) bu tanlangan amal haqidagi malumotlarni ko'rsatadi.
+==> Action(() ==> Chart ) tanlangan amal haqidagi malumotlarni diagrammada vizual ravishda 
+ko'rishimiz mumkin.
+==> Action(() ==> Raw ) tanlangan amal haqidagi amallarni JSON ko'rinishida ko'rishimiz
+mumkin
+
+State ===>  State da amal qo'llanilgandan keyingi holatni ko'rishimiz mumkin.
+
+Diff ===> Diff (farq yorlig'i) farq yorlig'i amal objectni qanday o'zgartirganini ko'rishimiz
+mumkin.
+
+Trace ===> Trace bu yerda buyruqlar qayerdan yuborilganini ko'rishimiz mumkin.
+bu amalni ishga tushirish uchun (npm i redux-devtools-extension kutubxonasi o'rnatiladi)
+va keyin createStore da 2-obejct sifatida beriladi.
+
+const store = createStore(
+    reducer,
+    devToolsEnhancer({ trace: true })
+);
+

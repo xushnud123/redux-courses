@@ -1,0 +1,16 @@
+==> Selector funksiya holatni qabul qiladigan va hisoblangan holatni qaytaradigan 
+funksiya.
+Filter metodi ga bir xil qiymat berilganda ham 2 xil massiv qaytaradi buni 
+xal qilish va loyixani optimal qilish uchun keshlash metodidan foydalanamiz 
+bizga bu uchun (reselect) kutubxonasi kerak bo'ladi .
+
+==> Reselect xolatni qabul qiladi va oldingi holat bilan tekshiradi agar xolat
+o'zgarmagan bo'lsa keshdagi qiymatni qaytaradi.
+
+import { createSelector } from 'reselect'
+
+export const getUnresolvedBugs = createSelector(
+    state => state.entities.bugs,
+    state => state.entities.projects,
+    (bugs, projects) => bugs.filter(bug => !bug.resolved)
+)

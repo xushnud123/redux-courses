@@ -1,0 +1,71 @@
+@redux/toolkit 
+==> Redux Toolkit bizga bir qator ajoyib imkoniyatlarni taqdim etadi.
+Ulardan biri 1️⃣ api qo'ng'iroqlarini amalga oshira olamiz.
+Ikkinchisi 2️⃣ esa redux devtools bilan avtomatik ravishda sozlaydi
+
+import { configureStore } from "@reduxjs/toolkit";
+import reducer from "./bugs";
+
+export default function(){
+   return configureStore({
+        reducer
+    });
+
+}
+
+
+==> Redux toolkit bizga harakatlarni yaratishga yordam beradi (Action creators) 
+va bizga ancha qo'lda yozishlarni tejaydi
+
+import { createAction } from "@reduxjs/toolkit"✅
+
+✅ Javascriptda funksiyalar ham objectlardir shuning uchun bir xil 
+xususiyatga egadir
+
+const bugAdded = createAction("bugAdded")✅
+
+
+/====/
+import { createAction, createReducer } from "@reduxjs/toolkit"
+Action creaters
+export const bugAdded = createAction('bugAdded')
+export const bugRemoved = createAction('bugRemoved')
+export const bugResolved = createAction('bugResolved')
+
+export default createReducer([], {
+    [bugAdded.type]: (state, action) => {
+        state.push({
+            id: ++lastId,
+            description: action.payload.description,
+            resolved: false
+        })
+    },
+    [bugResolved.type]: (state, action) => {
+        const index = state.findIndex(bug => bug.id === action.payload.id)
+        state[index].resolved = true
+    }
+})
+
+/====/
+
+function reducer(state = [], action) {
+    switch (action.type) {
+        case bugAdded.type:
+            return [
+                ...state,
+                {
+                    id: ++lastId,
+                    description: action.payload.description,
+                    resolved: false
+                }
+            ]
+        case bugRemoved.type:
+            return state.filter(bug => bug.id !== action.payload.id)
+        case bugResolved.type:
+            return state.map(bug => bug.id === action.payload.id
+                ? { ...bug, resolved: true } : bug)
+        default: return state
+    }
+}
+
+export default reducer

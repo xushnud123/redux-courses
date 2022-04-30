@@ -1,0 +1,25 @@
+==> Biz do'konni qayta sozlaymiz yani biz do'konga qo'shimcha xususitlarni 
+qo'shamiz 
+
+1️⃣ birinchi do'konni object ko'rinishida o'tkazamiz
+2️⃣ ikkinchi bo'lib list [] xususiyatini qo'shamiz bizga xatolarimizni 
+saqlashga yordam beradi
+3️⃣ uchinchi bo'lib loading xususiyatini qo'shamiz va uni (false ) ga o'rnatamiz
+4️⃣ to'rtinci bo'lib lastFetch xususiyatini qo'shamiz bu bizga qiymatni keshlashga 
+yordam beradi va unga birinchi marta (null) o'rnatamiz
+
+initialState: {
+    list: [],
+    loading: false,
+    lastFetch: null
+},
+
+==> Endi bizda Api muvaffaqiyatli bajarilgandan so'ng (data) ni do'konimizga
+qo'yadigan (reduser) ni yaratamiz ( bugsReceived ). Bu bizga (bugs.list) ga 
+(data) ni tayinlaydi
+
+bugsReceived: (bugs, action) => {
+    bugs.list = action.payload
+}
+
+

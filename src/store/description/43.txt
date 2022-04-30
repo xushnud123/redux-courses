@@ -1,0 +1,10 @@
+Zamonaviy redux uslublarini ishlatish qoidalari.✅
+
+1)Redux codlari UI kodlaridan ajratishi kerak chunki bularning 
+bir-biriga aloqasi yo'q.👍🏻
+
+2)Redux codlaridagi ( actinTypes ==> action ==> reducer) js fayllarini 
+bitta 1️⃣ js faylga joylashtirish maqul chunki manba codi o'zgartirilganda
+faqat bitta joydan o'zgartiriladi.
+
+3)Js faylda Reducer ( export default ) bo'lishi kerak✅ 

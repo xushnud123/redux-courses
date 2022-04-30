@@ -1,0 +1,36 @@
+==> CACHING 
+
+==> Agar (data) ni  oxirgi marta 10 minut oldin olgan bo'lsak uni yana qayta 
+olishning xojati yo'q shuning uchun (CACHING) ni amalga oshiramiz buning uchun 
+(Reducerga) ozgina o'zgartirishimiz kerak.
+
+bugsReceived: (bugs, action) => {
+    bugs.list = action.payload;
+    bugs.loading = false
+    bugs.lastFetch = Date.now() ✅
+},
+
+bugs.lastFetch = Date.now() bu bizga malumotlarni oxirgi olingan vaqtini beradi.
+
+Endi biz harakat yaratuvchimizga o'zgartirish kiritamiz (loadBugs())yani biz 
+oxirgi o'zgarishlar bilan tekshiramiz yani vaqt 10 minutdan kichik bo'lsa biz 
+API ga so'rov jo'natmaymiz.Buning uchun biz (moment) js degan kutubxonani o'rnatamiz
+
+const difInMInutes = moment().diff(moment(lastFetch),'minutes') 
+
+⬆️bu bizga farqni qaytaradi yani oxirgimalumotlar olingan vaqt va xozirgi vaqtlar 
+farqini beradi
+
+export const loadBugs = () => (dispatch,getState) => {
+   const {lastFetch} = getState().entities.bugs
+   const difInMInutes = moment().diff(moment(lastFetch),'minutes')
+
+    if(difInMInutes < 10) return;
+
+    dispatch(apiCallBegan({
+        url,
+        onStart: bugsRequested.type,
+        onError: bugsRequestedFailed.type,
+        onSuccess: bugsReceived.type
+    }))
+}
